@@ -1,0 +1,1 @@
+sudo cp -r /home/abhijeet/hadoop-2.7.2 /home/hduser/ && sudo chown hduser:hduser /home/hduser/

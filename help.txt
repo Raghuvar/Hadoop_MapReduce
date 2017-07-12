@@ -1,0 +1,174 @@
+* 0            /usr/lib/jvm/java-8-oracle/jre/bin/java         1073      auto mode
+  1            /usr/lib/jvm/java-6-openjdk-i386/jre/bin/java   1061      manual mode
+  2            /usr/lib/jvm/java-7-openjdk-i386/jre/bin/java   1071      manual mode
+  3            /usr/lib/jvm/java-7-oracle/jre/bin/java         1072      manual mode
+  4            /usr/lib/jvm/java-8-oracle/jre/bin/java         1073      manual mode
+
+
+
+/usr/local/hadoop/etc/hadoop/hdfs-site.xml
+
+****************************************************************************************************
+
+                COPY FILES FRoM ONE USER TO ANOTHER :
+                
+sudo cp -r /home/abhijeet/hadoop-2.7.2 /home/hduser/ && sudo chown hduser:hduser /home/hduser/
+
+
+*****************************************************************************************************                
+
+HELP :
+
+
+Always run in following directory :
+
+hduser@raghuvar-HCL-ME-Laptop:/usr/local/hadoop/sbin$ 
+
+Start in Web-browser :
+
+http://localhost:50070/ - web UI of the NameNode daemon
+
+
+-----------------------------------------------------------------------------------------------
+
+Starting Hadoop
+
+1. su hduser (To switch from local to hduser mode)
+
+2. go to /usr/local/hadoop/sbin directory
+
+3. Run command start-all.sh (To start the hadoop)
+
+4. you can check your status on web : http://localhost:50070/
+
+5. To stop hadoop inside the started sbin directory : type stop-all.sh
+
+--------------------------------------------------------------------------------------------
+
+
+6. Create WordCount.jar file using export facility of Eclipse in any directory of your system.
+
+7. Run wordcount.jar inside the hduser like
+
+Go to the directory where your wordcount.jar file is, like:
+
+        hduser@raghuvar-HCL-ME-Laptop:/home/raghuvar/Desktop/IR_MapReduce$ 
+        
+        Then Type :
+        
+        hadoop jar WordCount.jar /usr/local/hadoop/input /usr/local/hadoop/output
+        
+8. If everything goes right then you'll see 100% map and 100% reduce at the terminal output.
+
+
+9. For viewing results type :(On the same directory)
+
+        hdfs dfs -cat /usr/local/hadoop/output/part-00000 
+                
+                
+10. (A) :(Just for Help) : Create a directory in hdfs :
+
+                hadoop dfs -mkdir -p /usr/local/hadoop/input
+
+     (B) : To Remove folders created using hdfs-  
+                hdfs dfs -rm -R /usr/local/hadoop/output
+                
+11. (A) : To view folders in hdfs-  
+                        hdfs dfs -ls /usr/local/hadoop/
+    (B) : To stop all hadoop daemons, first change directory – 
+                        cd /usr/local/hadoop/etc/hadoop
+          And then use – 
+                        stop-dfs.sh && stop-yarn.sh                
+                
+                
+                
+
+
+
+-------------------------------------------------------------------------------------------
+
+Some Imp O/P and Commands :
+
+hduser@raghuvar-HCL-ME-Laptop:/usr/local/hadoop/sbin$ jps
+12145 NameNode
+13382 DataNode
+13912 Jps
+12825 NodeManager
+hduser@raghuvar-HCL-ME-Laptop:/usr/local/hadoop/sbin$ cd
+hduser@raghuvar-HCL-ME-Laptop:~$ 
+hduser@raghuvar-HCL-ME-Laptop:~$ hadoop dfs -mkdir -p /usr/local/hadoop/input
+DEPRECATED: Use of this script to execute hdfs command is deprecated.
+Instead use the hdfs command for it.
+
+16/09/29 09:48:34 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+hduser@raghuvar-HCL-ME-Laptop:~$ hadoop dfs -copyFromLocal /home/raghuvar/Desktop/Sample.txt /usr/local/hadoop/input
+DEPRECATED: Use of this script to execute hdfs command is deprecated.
+Instead use the hdfs command for it.
+
+16/09/29 09:51:06 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+hduser@raghuvar-HCL-ME-Laptop:~$ cd /home/raghuvar/Desktop/
+hduser@raghuvar-HCL-ME-Laptop:/home/raghuvar/Desktop$ cd IR_MapReduce/
+hduser@raghuvar-HCL-ME-Laptop:/home/raghuvar/Desktop/IR_MapReduce$ ls
+
+---------------------------------------------------------------------------------------------
+
+
+
+--------------------------------------------------------------------------------------------------
+
+**************** Simple process ************************************
+
+1. Go to : su hduser
+2. go to /usr/local/hadoop/sbin
+3. Type : start-all.sh or Simply start-dfs.sh && start-yarn.sh
+4. Type : jps (To check datanode, namenode and jps is working or not)
+        if you got error for not starting of any node
+        : Go to 1. cd
+                2. cd /usr/local/hadoop/hadoop_store/hdfs/
+                3. go to the datanode and namenode
+                4. If you see current directory in any of the folder
+                5. Delete it using : sudo rm -r * OR sudo rm -r current/
+
+5. Type : hadoop namenode -format
+
+6. Then again type jps to check everything iis working fine.
+
+7. Create an input file using: (From going back to cd (means going  back to home))
+                hadoop dfs -mkdir -p /usr/local/hadoop/input
+                
+8. Copy the sample input text file into this hdfs directory :
+
+                hadoop dfs -copyFromLocal /home/raghuvar/Desktop/Sample.txt /usr/local/hadoop/input                
+
+9. Create .jar file from eclipse for any program
+
+10. Navigate to the directory where your .jar(WordCount.jar) file is and then (move step-11)
+
+11. Run the .jar file in HDFS using
+                hadoop jar WordCount.jar /usr/local/hadoop/input /usr/local/hadoop/output
+                
+12. View the results :
+                hdfs dfs -cat /usr/local/hadoop/output/part-00000
+                
+                       
+
+        
+
+---------------------------------------------------------------------------------------------------
+
+
+
+________________________________________________________________________________________________
+
+Working Helps
+
+(1) : How to merge/put files into hdfs
+
+        hadoop dfs -put <src>(like:/home/raghuvar/Desktop/<Directory>) <destination>(like:/usr/local/hadoop)
+        
+        
+
+
+_____________________________________________________________________________________________________
+
+Hadoop Submitting Jobs in Cluster :
